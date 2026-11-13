@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="akini_bg">#FF03060C</color>
+    <color name="akini_cyan">#FF33E0FF</color>
+    <color name="akini_blue">#FF3D7BFF</color>
+    <color name="akini_on_cyan">#FF00131C</color>
+    <color name="akini_text">#FFF2FBFF</color>
+    <color name="akini_text_dim">#FF8FB8C8</color>
+    <color name="akini_panel">#D9060A14</color>
+    <color name="akini_icon_bg">#FF050A14</color>
+</resources>

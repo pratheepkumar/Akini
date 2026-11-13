@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Akini</string>
+    <string name="brand">AKINI</string>
+    <string name="wallpaper_description">Hi-tech live wallpapers and animated photos. No ads, no tracking, no internet access.</string>
+
+    <string name="label_scenes">SCENES</string>
+    <string name="label_motion">MOTION</string>
+    <string name="label_effect">EFFECT</string>
+    <string name="label_fps">FRAME RATE</string>
+    <string name="label_quality">QUALITY</string>
+    <string name="label_interaction">INTERACTION</string>
+
+    <string name="choose_photo">Choose a photo</string>
+    <string name="settings_show">SETTINGS ▾</string>
+    <string name="settings_hide">SETTINGS ▴</string>
+    <string name="fps_label">%1$d fps</string>
+    <string name="toggle_parallax">Tilt parallax</string>
+    <string name="toggle_touch">Touch ripple</string>
+
+    <string name="apply">SET AS WALLPAPER</string>
+    <string name="apply_hint">Tap “Set wallpaper”, then pick “Home and lock screens”.</string>
+    <string name="apply_hint_chooser">Choose Akini from the list, then pick “Home and lock screens”.</string>
+    <string name="apply_failed">This phone has no live wallpaper picker.</string>
+    <string name="status_active">Akini is your wallpaper — changes apply instantly.</string>
+    <string name="status_inactive">Preview only. Tap the button to apply.</string>
+    <string name="photo_importing">Importing photo…</string>
+    <string name="photo_failed">Couldn’t open that photo.</string>
+
+    <string-array name="motion_options">
+        <item>Still</item>
+        <item>Drift</item>
+        <item>Tilt</item>
+    </string-array>
+    <string-array name="effect_options">
+        <item>None</item>
+        <item>Particles</item>
+        <item>Holo sweep</item>
+        <item>Glitch</item>
+        <item>Edge scan</item>
+    </string-array>
+    <string-array name="quality_options">
+        <item>Battery saver</item>
+        <item>Balanced</item>
+        <item>Maximum</item>
+    </string-array>
+</resources>

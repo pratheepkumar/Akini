@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/akini_bg">
+
+    <android.opengl.GLSurfaceView
+        android:id="@+id/preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/content_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/header_fade"
+            android:orientation="vertical"
+            android:paddingStart="24dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="28dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:letterSpacing="0.45"
+                android:text="@string/brand"
+                android:textColor="@color/akini_cyan"
+                android:textSize="28sp" />
+
+            <TextView
+                android:id="@+id/scene_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/akini_text"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/scene_tagline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/akini_text_dim"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Control panel -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp"
+            android:fadeScrollbars="true"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/panel_bg"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    style="@style/AkiniLabel"
+                    android:text="@string/label_scenes" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:id="@+id/scene_row"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" />
+                </HorizontalScrollView>
+
+                <!-- Photo options, shown when "My Photo" is selected -->
+                <LinearLayout
+                    android:id="@+id/photo_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/choose_photo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:background="@drawable/outline_button_bg"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:padding="12dp"
+                        android:text="@string/choose_photo"
+                        android:textColor="@color/akini_cyan"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        style="@style/AkiniLabel"
+                        android:text="@string/label_motion" />
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="none">
+
+                        <LinearLayout
+                            android:id="@+id/motion_row"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" />
+                    </HorizontalScrollView>
+
+                    <TextView
+                        style="@style/AkiniLabel"
+                        android:text="@string/label_effect" />
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="none">
+
+                        <LinearLayout
+                            android:id="@+id/effect_row"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" />
+                    </HorizontalScrollView>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/settings_toggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.15"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:text="@string/settings_show"
+                    android:textColor="@color/akini_text_dim"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:id="@+id/settings_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        style="@style/AkiniLabel"
+                        android:text="@string/label_fps" />
+
+                    <LinearLayout
+                        android:id="@+id/fps_row"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" />
+
+                    <TextView
+                        style="@style/AkiniLabel"
+                        android:text="@string/label_quality" />
+
+                    <LinearLayout
+                        android:id="@+id/quality_row"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" />
+
+                    <TextView
+                        style="@style/AkiniLabel"
+                        android:text="@string/label_interaction" />
+
+                    <LinearLayout
+                        android:id="@+id/toggle_row"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/apply_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/button_bg"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="center"
+                    android:letterSpacing="0.12"
+                    android:text="@string/apply"
+                    android:textColor="@color/akini_on_cyan"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/status_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:textColor="@color/akini_text_dim"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</FrameLayout>

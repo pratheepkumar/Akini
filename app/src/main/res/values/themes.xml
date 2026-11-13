@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Akini" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/akini_bg</item>
+        <item name="android:colorAccent">@color/akini_cyan</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AkiniLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">14dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0.2</item>
+        <item name="android:textColor">@color/akini_text_dim</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+</resources>

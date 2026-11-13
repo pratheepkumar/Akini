@@ -51,10 +51,20 @@ class Prefs(context: Context) {
         get() = sp.getInt(KEY_FPS, 30)
         set(value) = sp.edit().putInt(KEY_FPS, value).apply()
 
-    /** 0 = battery saver, 1 = balanced, 2 = maximum */
-    var quality: Int
-        get() = sp.getInt(KEY_QUALITY, 1)
-        set(value) = sp.edit().putInt(KEY_QUALITY, value).apply()
+    /** Render resolution: 0 = HD (720p), 1 = Full HD (1080p), 2 = 4K (2160p). */
+    var resolution: Int
+        get() = sp.getInt(KEY_RESOLUTION, 1)
+        set(value) = sp.edit().putInt(KEY_RESOLUTION, value).apply()
+
+    /** Lower the frame rate to what each design needs, and back off in Battery Saver or when warm. */
+    var smartBattery: Boolean
+        get() = sp.getBoolean(KEY_SMART_BATTERY, true)
+        set(value) = sp.edit().putBoolean(KEY_SMART_BATTERY, value).apply()
+
+    /** Category open in the app's browser (UI state only). */
+    var browseCategory: String?
+        get() = sp.getString(KEY_BROWSE_CATEGORY, null)
+        set(value) = sp.edit().putString(KEY_BROWSE_CATEGORY, value).apply()
 
     var parallax: Boolean
         get() = sp.getBoolean(KEY_PARALLAX, true)
@@ -67,7 +77,7 @@ class Prefs(context: Context) {
     fun configFor(screen: Int): ScreenConfig {
         val p = prefix(screen)
         return ScreenConfig(
-            scene = sp.getString(p + KEY_SCENE, null) ?: Scenes.all.first().id,
+            scene = sp.getString(p + KEY_SCENE, null) ?: DEFAULT_SCENE,
             motion = sp.getInt(p + KEY_MOTION, 1),
             overlay = sp.getInt(p + KEY_OVERLAY, 1),
             photoVersion = sp.getLong(p + KEY_PHOTO_VERSION, 0L),
@@ -92,6 +102,22 @@ class Prefs(context: Context) {
             .apply()
     }
 
+    /** [Shuffler.OFF], [Shuffler.SAME_CATEGORY] or [Shuffler.EVERYTHING]. */
+    fun shuffleMode(screen: Int): Int = sp.getInt(prefix(screen) + KEY_SHUFFLE, Shuffler.OFF)
+
+    fun setShuffleMode(screen: Int, mode: Int) {
+        // start counting from today, so the current design stays until tomorrow
+        sp.edit()
+            .putInt(prefix(screen) + KEY_SHUFFLE, mode)
+            .putLong(prefix(screen) + KEY_SHUFFLE_DAY, Shuffler.today())
+            .apply()
+    }
+
+    fun lastShuffleDay(screen: Int): Long = sp.getLong(prefix(screen) + KEY_SHUFFLE_DAY, -1L)
+
+    fun setLastShuffleDay(screen: Int, day: Long) =
+        sp.edit().putLong(prefix(screen) + KEY_SHUFFLE_DAY, day).apply()
+
     fun photoFileFor(screen: Int): File =
         File(appContext.filesDir, if (separate && screen == Screen.HOME) "photo_home.jpg" else "photo.jpg")
 
@@ -108,10 +134,12 @@ class Prefs(context: Context) {
             // The home screen simply starts without a photo.
         }
         sp.edit()
-            .putString(HOME_PREFIX + KEY_SCENE, sp.getString(KEY_SCENE, null) ?: Scenes.all.first().id)
+            .putString(HOME_PREFIX + KEY_SCENE, sp.getString(KEY_SCENE, null) ?: DEFAULT_SCENE)
             .putInt(HOME_PREFIX + KEY_MOTION, sp.getInt(KEY_MOTION, 1))
             .putInt(HOME_PREFIX + KEY_OVERLAY, sp.getInt(KEY_OVERLAY, 1))
             .putLong(HOME_PREFIX + KEY_PHOTO_VERSION, System.currentTimeMillis())
+            .putInt(HOME_PREFIX + KEY_SHUFFLE, sp.getInt(KEY_SHUFFLE, Shuffler.OFF))
+            .putLong(HOME_PREFIX + KEY_SHUFFLE_DAY, sp.getLong(KEY_SHUFFLE_DAY, -1L))
             .apply()
     }
 
@@ -125,17 +153,22 @@ class Prefs(context: Context) {
         const val KEY_SEPARATE = "separate"
         const val KEY_EDITING = "editing"
         const val KEY_FPS = "fps"
-        const val KEY_QUALITY = "quality"
+        const val KEY_RESOLUTION = "resolution"
+        const val KEY_SMART_BATTERY = "smart_battery"
+        const val KEY_BROWSE_CATEGORY = "browse_category"
+        const val KEY_SHUFFLE = "shuffle"
+        const val KEY_SHUFFLE_DAY = "shuffle_day"
+        const val DEFAULT_SCENE = "event_horizon"
         const val KEY_PARALLAX = "parallax"
         const val KEY_TOUCH = "touch"
 
         val FPS_OPTIONS = intArrayOf(24, 30, 60)
 
-        /** Fraction of the screen resolution the scene is drawn at before being scaled up. */
-        fun renderScale(quality: Int): Float = when (quality) {
-            0 -> 0.5f
-            1 -> 0.75f
-            else -> 1f
+        /** Short side, in pixels, that each resolution setting draws at. */
+        fun targetShortSide(resolution: Int): Int = when (resolution) {
+            0 -> 720
+            1 -> 1080
+            else -> 2160
         }
     }
 }

@@ -2,7 +2,7 @@
 uniform sampler2D uTex;
 uniform vec2  uTexSize;   // photo size in pixels
 uniform float uMotion;    // 0 = still, 1 = drift, 2 = tilt parallax
-uniform float uOverlay;   // 0 = none, 1 = particles, 2 = holo sweep, 3 = glitch, 4 = edge scan
+uniform float uOverlay;   // 0 none, 1 particles, 2 holo sweep, 3 glitch, 4 edge scan, 5 vintage film
 
 vec2 photoUV(vec2 uv, float zoom, vec2 pan) {
     float sa = uRes.x / uRes.y;
@@ -83,6 +83,9 @@ void main() {
         vec3 irid = 0.5 + 0.5 * cos(TAU * (vec3(0.0, 0.33, 0.67) + p.x * 1.5 + p.y + t * 0.1));
         col += irid * band * 0.35;
         col += vec3(1.0) * pow(band, 8.0) * 0.25;
+    } else if (uOverlay > 4.5) {
+        // Vintage film: sepia, grain, flicker, scratches
+        col = filmLook(col, 0.9);
     } else if (uOverlay > 3.5) {
         // Edge scan: outlines glow as a scanning wave passes.
         vec2 tc = photoUV(uv, zoom, pan);

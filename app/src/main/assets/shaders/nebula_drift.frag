@@ -26,9 +26,10 @@ void main() {
     vec2 w2 = vec2(fbm4(q + 3.0 * w1 + vec2(1.7, 9.2)), fbm4(q + 3.0 * w1 + vec2(8.3, 2.8)));
     float f = fbm(q + 2.5 * w2);
 
-    vec3 col = mix(vec3(0.003, 0.005, 0.016), vec3(0.02, 0.09, 0.20), smoothstep(0.2, 0.7, f));
-    col = mix(col, vec3(0.42, 0.07, 0.42), smoothstep(0.5, 1.0, length(w2) * 0.85) * 0.75);
-    col += vec3(0.10, 0.72, 0.95) * pow(smoothstep(0.5, 1.0, f), 3.0) * 1.4;
+    // uC1 = deep gas, uC2 = secondary clouds, uC3 = hot glowing gas
+    vec3 col = mix(vec3(0.003, 0.005, 0.016), uC1, smoothstep(0.2, 0.7, f));
+    col = mix(col, uC2, smoothstep(0.5, 1.0, length(w2) * 0.85) * 0.75);
+    col += uC3 * pow(smoothstep(0.5, 1.0, f), 3.0) * 1.4;
     col += vec3(1.0, 0.5, 0.3) * pow(smoothstep(0.62, 1.0, f * w1.x * 1.6), 4.0) * 0.8;
 
     // Dark dust lanes.

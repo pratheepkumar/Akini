@@ -31,15 +31,16 @@ vec3 layer(vec2 p, float scale, float speed, float bright, float seed) {
     float gseed = hash12(vec2(colId, rowId) + change * 0.13 * step(0.6, hash12(vec2(rowId, colId))));
     float gl = glyph(cuv, gseed + seed);
 
-    vec3 c = mix(vec3(0.05, 0.35, 0.9), vec3(0.3, 0.9, 1.0), trail);
-    c = mix(c, vec3(0.9, 1.0, 1.0), head);
+    // uC1 = old glyphs, uC2 = fresh glyphs, uC3 = leading glyph
+    vec3 c = mix(uC1, uC2, trail);
+    c = mix(c, uC3, head);
     return c * gl * (trail * 0.9 + head * 1.8) * bright;
 }
 
 void main() {
     vec2 p = (gl_FragCoord.xy - 0.5 * uRes) / uRes.y;
     vec3 col = vec3(0.0, 0.006, 0.015);
-    col += vec3(0.0, 0.02, 0.05) * (1.0 - length(vUv - vec2(0.5, 0.6)));
+    col += uC1 * 0.08 * (1.0 - length(vUv - vec2(0.5, 0.6)));
 
     col += layer(p + vec2(uTilt.x * 0.01, 0.0) + 3.1, 95.0, 6.0, 0.35, 1.0);
     col += layer(p + vec2(uTilt.x * 0.025, 0.0) + 7.7, 55.0, 8.0, 0.7, 2.0);
@@ -47,7 +48,7 @@ void main() {
 
     // Slow horizontal scan bar.
     float scanY = fract(uTime * 0.05) * 1.4 - 0.2;
-    col += vec3(0.1, 0.5, 1.0) * exp(-pow((vUv.y - scanY) * 30.0, 2.0)) * 0.1;
+    col += uC2 * exp(-pow((vUv.y - scanY) * 30.0, 2.0)) * 0.08;
     // CRT-style fine lines and vignette.
     col *= 0.88 + 0.12 * sin(gl_FragCoord.y * 2.0);
     col *= 1.0 - 0.55 * dot(vUv - 0.5, vUv - 0.5);

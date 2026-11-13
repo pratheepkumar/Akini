@@ -6,7 +6,9 @@
 
     <string name="label_screens">SCREENS</string>
     <string name="label_editing">EDITING</string>
-    <string name="label_scenes">SCENES</string>
+    <string name="label_category">DESIGNS</string>
+    <string name="label_shuffle">DAILY SHUFFLE</string>
+    <string name="label_resolution">RESOLUTION</string>
     <string name="screens_same">Same on both</string>
     <string name="screens_different">Different home &amp; lock</string>
     <string name="editing_lock">Lock screen</string>
@@ -17,7 +19,6 @@
     <string name="label_motion">MOTION</string>
     <string name="label_effect">EFFECT</string>
     <string name="label_fps">FRAME RATE</string>
-    <string name="label_quality">QUALITY</string>
     <string name="label_interaction">INTERACTION</string>
 
     <string name="choose_photo">Choose a photo</string>
@@ -26,6 +27,10 @@
     <string name="fps_label">%1$d fps</string>
     <string name="toggle_parallax">Tilt parallax</string>
     <string name="toggle_touch">Touch ripple</string>
+    <string name="toggle_smart_battery">Smart battery</string>
+    <string name="res_note_hd">HD: lightest on battery. Soft designs look almost the same.</string>
+    <string name="res_note_fhd">Full HD: sharp on any phone and easy on the battery. Recommended.</string>
+    <string name="res_note_4k">4K: extra-fine detail, drawn at 4× the pixels of Full HD, so it uses noticeably more battery.</string>
 
     <string name="apply">SET AS WALLPAPER</string>
     <string name="apply_hint">Tap “Set wallpaper”, then pick “Home and lock screens”. Akini shows the right picture on each.</string>
@@ -47,10 +52,16 @@
         <item>Holo sweep</item>
         <item>Glitch</item>
         <item>Edge scan</item>
+        <item>Vintage film</item>
     </string-array>
-    <string-array name="quality_options">
-        <item>Battery saver</item>
-        <item>Balanced</item>
-        <item>Maximum</item>
+    <string-array name="resolution_options">
+        <item>HD</item>
+        <item>Full HD</item>
+        <item>4K</item>
+    </string-array>
+    <string-array name="shuffle_options">
+        <item>Off</item>
+        <item>Daily · same category</item>
+        <item>Daily · all designs</item>
     </string-array>
 </resources>

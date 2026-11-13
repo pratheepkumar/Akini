@@ -1,0 +1,1907 @@
+{
+ "categories": [
+  {
+   "id": "cosmic",
+   "title": "Cosmic"
+  },
+  {
+   "id": "modern",
+   "title": "Modern"
+  },
+  {
+   "id": "abstract",
+   "title": "Abstract"
+  },
+  {
+   "id": "vintage",
+   "title": "Vintage"
+  },
+  {
+   "id": "religious",
+   "title": "Religious"
+  },
+  {
+   "id": "photo",
+   "title": "My Photo"
+  }
+ ],
+ "scenes": [
+  {
+   "id": "event_horizon",
+   "title": "Event Horizon",
+   "category": "cosmic",
+   "shader": "event_horizon",
+   "fps": 30,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    1,
+    1,
+    1
+   ],
+   "c2": [
+    1,
+    1,
+    1
+   ],
+   "c3": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "nebula_drift",
+   "title": "Nebula Drift",
+   "category": "cosmic",
+   "shader": "nebula_drift",
+   "fps": 20,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.02,
+    0.09,
+    0.2
+   ],
+   "c2": [
+    0.42,
+    0.07,
+    0.42
+   ],
+   "c3": [
+    0.1,
+    0.72,
+    0.95
+   ]
+  },
+  {
+   "id": "star_nursery",
+   "title": "Star Nursery",
+   "category": "cosmic",
+   "shader": "nebula_drift",
+   "fps": 20,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.18,
+    0.05,
+    0.02
+   ],
+   "c2": [
+    0.55,
+    0.12,
+    0.08
+   ],
+   "c3": [
+    1.0,
+    0.62,
+    0.25
+   ]
+  },
+  {
+   "id": "milky_way",
+   "title": "Milky Way",
+   "category": "cosmic",
+   "shader": "milky_way",
+   "fps": 15,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.55,
+    0.62,
+    0.85
+   ],
+   "c2": [
+    1.0,
+    0.78,
+    0.55
+   ],
+   "c3": [
+    1.0,
+    0.45,
+    0.6
+   ]
+  },
+  {
+   "id": "spiral_galaxy",
+   "title": "Spiral Galaxy",
+   "category": "cosmic",
+   "shader": "galaxy",
+   "fps": 20,
+   "p": [
+    2,
+    0.25,
+    0,
+    0.9
+   ],
+   "c1": [
+    1.0,
+    0.82,
+    0.55
+   ],
+   "c2": [
+    0.45,
+    0.62,
+    1.0
+   ],
+   "c3": [
+    1.0,
+    0.4,
+    0.65
+   ]
+  },
+  {
+   "id": "andromeda",
+   "title": "Andromeda",
+   "category": "cosmic",
+   "shader": "galaxy",
+   "fps": 20,
+   "p": [
+    2,
+    1.15,
+    0,
+    0.7
+   ],
+   "c1": [
+    1.0,
+    0.85,
+    0.6
+   ],
+   "c2": [
+    0.6,
+    0.72,
+    1.0
+   ],
+   "c3": [
+    1.0,
+    0.5,
+    0.7
+   ]
+  },
+  {
+   "id": "barred_spiral",
+   "title": "Barred Spiral",
+   "category": "cosmic",
+   "shader": "galaxy",
+   "fps": 20,
+   "p": [
+    2,
+    0.35,
+    0.6,
+    1.1
+   ],
+   "c1": [
+    1.0,
+    0.75,
+    0.45
+   ],
+   "c2": [
+    0.55,
+    0.75,
+    1.0
+   ],
+   "c3": [
+    0.9,
+    0.35,
+    0.6
+   ]
+  },
+  {
+   "id": "galaxy_merger",
+   "title": "Galaxy Merger",
+   "category": "cosmic",
+   "shader": "galaxy",
+   "fps": 20,
+   "p": [
+    2,
+    0.5,
+    2,
+    1.0
+   ],
+   "c1": [
+    1.0,
+    0.8,
+    0.55
+   ],
+   "c2": [
+    0.5,
+    0.7,
+    1.0
+   ],
+   "c3": [
+    1.0,
+    0.45,
+    0.7
+   ]
+  },
+  {
+   "id": "constellations",
+   "title": "Constellations",
+   "category": "cosmic",
+   "shader": "constellations",
+   "fps": 20,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.45,
+    0.75,
+    1.0
+   ],
+   "c2": [
+    1,
+    1,
+    1
+   ],
+   "c3": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "saturn_rise",
+   "title": "Saturn Rise",
+   "category": "cosmic",
+   "shader": "planet",
+   "fps": 15,
+   "p": [
+    0,
+    0.28,
+    0.17,
+    0.06
+   ],
+   "c1": [
+    0.85,
+    0.72,
+    0.5
+   ],
+   "c2": [
+    0.62,
+    0.5,
+    0.36
+   ],
+   "c3": [
+    0.9,
+    0.8,
+    0.6
+   ]
+  },
+  {
+   "id": "blue_planet",
+   "title": "Blue Planet",
+   "category": "cosmic",
+   "shader": "planet",
+   "fps": 15,
+   "p": [
+    1,
+    0.3,
+    0.42,
+    -0.42
+   ],
+   "c1": [
+    0.16,
+    0.22,
+    0.09
+   ],
+   "c2": [
+    0.02,
+    0.1,
+    0.32
+   ],
+   "c3": [
+    0.35,
+    0.65,
+    1.0
+   ]
+  },
+  {
+   "id": "supernova",
+   "title": "Supernova",
+   "category": "cosmic",
+   "shader": "supernova",
+   "fps": 24,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    1.0,
+    0.35,
+    0.2
+   ],
+   "c2": [
+    0.3,
+    0.85,
+    0.9
+   ],
+   "c3": [
+    0.55,
+    0.65,
+    1.0
+   ]
+  },
+  {
+   "id": "pulsar",
+   "title": "Pulsar",
+   "category": "cosmic",
+   "shader": "pulsar",
+   "fps": 30,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.55,
+    0.75,
+    1.0
+   ],
+   "c2": [
+    0.6,
+    0.35,
+    1.0
+   ],
+   "c3": [
+    0.8,
+    0.9,
+    1.0
+   ]
+  },
+  {
+   "id": "wormhole",
+   "title": "Wormhole",
+   "category": "cosmic",
+   "shader": "wormhole",
+   "fps": 30,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.25,
+    0.35,
+    1.0
+   ],
+   "c2": [
+    0.8,
+    0.3,
+    1.0
+   ],
+   "c3": [
+    1.0,
+    0.8,
+    0.55
+   ]
+  },
+  {
+   "id": "aurora_night",
+   "title": "Aurora Night",
+   "category": "cosmic",
+   "shader": "aurora",
+   "fps": 20,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.2,
+    1.0,
+    0.55
+   ],
+   "c2": [
+    0.6,
+    0.25,
+    0.9
+   ],
+   "c3": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "liquid_chrome",
+   "title": "Liquid Chrome",
+   "category": "modern",
+   "shader": "liquid_chrome",
+   "fps": 30,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    1,
+    1,
+    1
+   ],
+   "c2": [
+    1,
+    1,
+    1
+   ],
+   "c3": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "neon_grid",
+   "title": "Neon Grid",
+   "category": "modern",
+   "shader": "neon_grid",
+   "fps": 30,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    1,
+    1,
+    1
+   ],
+   "c2": [
+    1,
+    1,
+    1
+   ],
+   "c3": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "holo_core",
+   "title": "Holo Core",
+   "category": "modern",
+   "shader": "holo_core",
+   "fps": 30,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    1,
+    1,
+    1
+   ],
+   "c2": [
+    1,
+    1,
+    1
+   ],
+   "c3": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "data_stream",
+   "title": "Data Stream",
+   "category": "modern",
+   "shader": "data_stream",
+   "fps": 24,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.05,
+    0.35,
+    0.9
+   ],
+   "c2": [
+    0.3,
+    0.9,
+    1.0
+   ],
+   "c3": [
+    0.9,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "id": "code_rain",
+   "title": "Code Rain",
+   "category": "modern",
+   "shader": "data_stream",
+   "fps": 24,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.02,
+    0.35,
+    0.08
+   ],
+   "c2": [
+    0.25,
+    1.0,
+    0.45
+   ],
+   "c3": [
+    0.85,
+    1.0,
+    0.9
+   ]
+  },
+  {
+   "id": "cyber_rain",
+   "title": "Cyber Rain",
+   "category": "modern",
+   "shader": "cyber_rain",
+   "fps": 30,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    1.0,
+    0.15,
+    0.6
+   ],
+   "c2": [
+    0.1,
+    0.85,
+    1.0
+   ],
+   "c3": [
+    1.0,
+    0.75,
+    0.2
+   ]
+  },
+  {
+   "id": "circuit_board",
+   "title": "Circuit Board",
+   "category": "modern",
+   "shader": "circuit",
+   "fps": 24,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.95,
+    0.65,
+    0.3
+   ],
+   "c2": [
+    0.2,
+    1.0,
+    0.85
+   ],
+   "c3": [
+    0.3,
+    0.9,
+    1.0
+   ]
+  },
+  {
+   "id": "hex_shield",
+   "title": "Hex Shield",
+   "category": "modern",
+   "shader": "hex_shield",
+   "fps": 30,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.2,
+    0.75,
+    1.0
+   ],
+   "c2": [
+    0.45,
+    0.4,
+    1.0
+   ],
+   "c3": [
+    0.9,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "id": "synthwave",
+   "title": "Synthwave",
+   "category": "modern",
+   "shader": "synthwave",
+   "fps": 30,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    1.0,
+    0.85,
+    0.3
+   ],
+   "c2": [
+    1.0,
+    0.2,
+    0.55
+   ],
+   "c3": [
+    0.2,
+    0.85,
+    1.0
+   ]
+  },
+  {
+   "id": "warp_speed",
+   "title": "Warp Speed",
+   "category": "modern",
+   "shader": "warp_speed",
+   "fps": 30,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.55,
+    0.75,
+    1.0
+   ],
+   "c2": [
+    0.75,
+    0.55,
+    1.0
+   ],
+   "c3": [
+    0.85,
+    0.92,
+    1.0
+   ]
+  },
+  {
+   "id": "flow_lines",
+   "title": "Flow Lines",
+   "category": "modern",
+   "shader": "flow_field",
+   "fps": 24,
+   "p": [
+    0.0,
+    0.33,
+    0.67,
+    0
+   ],
+   "c1": [
+    0.3,
+    0.8,
+    1.0
+   ],
+   "c2": [
+    1,
+    1,
+    1
+   ],
+   "c3": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "laser_show",
+   "title": "Laser Show",
+   "category": "modern",
+   "shader": "laser_show",
+   "fps": 30,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.2,
+    1.0,
+    0.4
+   ],
+   "c2": [
+    0.25,
+    0.5,
+    1.0
+   ],
+   "c3": [
+    1.0,
+    0.2,
+    0.5
+   ]
+  },
+  {
+   "id": "neon_tunnel",
+   "title": "Neon Tunnel",
+   "category": "modern",
+   "shader": "neon_tunnel",
+   "fps": 30,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.15,
+    0.85,
+    1.0
+   ],
+   "c2": [
+    1.0,
+    0.2,
+    0.7
+   ],
+   "c3": [
+    1.0,
+    0.85,
+    0.3
+   ]
+  },
+  {
+   "id": "color_splash",
+   "title": "Colour Splash",
+   "category": "abstract",
+   "shader": "ink",
+   "fps": 20,
+   "p": [
+    1.6,
+    3.0,
+    0,
+    0
+   ],
+   "c1": [
+    0.95,
+    0.25,
+    0.45
+   ],
+   "c2": [
+    0.15,
+    0.45,
+    0.95
+   ],
+   "c3": [
+    1.0,
+    0.75,
+    0.15
+   ]
+  },
+  {
+   "id": "acrylic_pour",
+   "title": "Acrylic Pour",
+   "category": "abstract",
+   "shader": "ink",
+   "fps": 20,
+   "p": [
+    2.6,
+    4.0,
+    0,
+    0
+   ],
+   "c1": [
+    0.05,
+    0.55,
+    0.6
+   ],
+   "c2": [
+    0.95,
+    0.55,
+    0.35
+   ],
+   "c3": [
+    0.12,
+    0.12,
+    0.3
+   ]
+  },
+  {
+   "id": "ripple",
+   "title": "Ripple",
+   "category": "abstract",
+   "shader": "ripple",
+   "fps": 30,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.1,
+    0.55,
+    0.65
+   ],
+   "c2": [
+    0.75,
+    0.9,
+    1.0
+   ],
+   "c3": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "gold_marble",
+   "title": "Gold Marble",
+   "category": "abstract",
+   "shader": "marble",
+   "fps": 15,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.06,
+    0.06,
+    0.07
+   ],
+   "c2": [
+    0.85,
+    0.65,
+    0.3
+   ],
+   "c3": [
+    1.0,
+    0.85,
+    0.5
+   ]
+  },
+  {
+   "id": "white_marble",
+   "title": "White Marble",
+   "category": "abstract",
+   "shader": "marble",
+   "fps": 15,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.78,
+    0.78,
+    0.8
+   ],
+   "c2": [
+    0.12,
+    0.13,
+    0.15
+   ],
+   "c3": [
+    0.9,
+    0.75,
+    0.45
+   ]
+  },
+  {
+   "id": "gradient_blobs",
+   "title": "Gradient Blobs",
+   "category": "abstract",
+   "shader": "blobs",
+   "fps": 20,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.98,
+    0.45,
+    0.55
+   ],
+   "c2": [
+    0.35,
+    0.4,
+    0.95
+   ],
+   "c3": [
+    1.0,
+    0.8,
+    0.45
+   ]
+  },
+  {
+   "id": "voronoi_glass",
+   "title": "Voronoi Glass",
+   "category": "abstract",
+   "shader": "cells",
+   "fps": 20,
+   "p": [
+    5.0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.9,
+    0.2,
+    0.3
+   ],
+   "c2": [
+    0.15,
+    0.4,
+    0.9
+   ],
+   "c3": [
+    1.0,
+    0.75,
+    0.2
+   ]
+  },
+  {
+   "id": "op_art",
+   "title": "Op Art",
+   "category": "abstract",
+   "shader": "opart",
+   "fps": 30,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.02,
+    0.02,
+    0.03
+   ],
+   "c2": [
+    0.95,
+    0.95,
+    0.93
+   ],
+   "c3": [
+    1.0,
+    0.25,
+    0.3
+   ]
+  },
+  {
+   "id": "kaleidoscope",
+   "title": "Kaleidoscope",
+   "category": "abstract",
+   "shader": "kaleido",
+   "fps": 24,
+   "p": [
+    8.0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.0,
+    0.33,
+    0.67
+   ],
+   "c2": [
+    1.0,
+    0.9,
+    0.7
+   ],
+   "c3": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "silk",
+   "title": "Silk",
+   "category": "abstract",
+   "shader": "silk",
+   "fps": 24,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.55,
+    0.08,
+    0.2
+   ],
+   "c2": [
+    1.0,
+    0.7,
+    0.75
+   ],
+   "c3": [
+    0.35,
+    0.05,
+    0.4
+   ]
+  },
+  {
+   "id": "lava_lamp",
+   "title": "Lava Lamp",
+   "category": "abstract",
+   "shader": "lava",
+   "fps": 24,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    1.0,
+    0.35,
+    0.1
+   ],
+   "c2": [
+    0.45,
+    0.05,
+    0.25
+   ],
+   "c3": [
+    1.0,
+    0.8,
+    0.3
+   ]
+  },
+  {
+   "id": "contours",
+   "title": "Contours",
+   "category": "abstract",
+   "shader": "topo",
+   "fps": 20,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.02,
+    0.1,
+    0.12
+   ],
+   "c2": [
+    0.1,
+    0.75,
+    0.6
+   ],
+   "c3": [
+    0.7,
+    1.0,
+    0.9
+   ]
+  },
+  {
+   "id": "bokeh",
+   "title": "Bokeh",
+   "category": "abstract",
+   "shader": "bokeh",
+   "fps": 20,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    1.0,
+    0.65,
+    0.3
+   ],
+   "c2": [
+    0.95,
+    0.3,
+    0.45
+   ],
+   "c3": [
+    0.4,
+    0.6,
+    1.0
+   ]
+  },
+  {
+   "id": "fractal_bloom",
+   "title": "Fractal Bloom",
+   "category": "abstract",
+   "shader": "julia",
+   "fps": 20,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.0,
+    0.15,
+    0.25
+   ],
+   "c2": [
+    1.0,
+    0.85,
+    0.6
+   ],
+   "c3": [
+    0.2,
+    0.05,
+    0.2
+   ]
+  },
+  {
+   "id": "classic_car",
+   "title": "Classic Car",
+   "category": "vintage",
+   "shader": "vintage_car",
+   "fps": 16,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.55,
+    0.32,
+    0.22
+   ],
+   "c2": [
+    0.95,
+    0.75,
+    0.5
+   ],
+   "c3": [
+    1.0,
+    0.85,
+    0.55
+   ]
+  },
+  {
+   "id": "giza_sunset",
+   "title": "Giza Sunset",
+   "category": "vintage",
+   "shader": "pyramids",
+   "fps": 16,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.45,
+    0.28,
+    0.2
+   ],
+   "c2": [
+    0.95,
+    0.72,
+    0.45
+   ],
+   "c3": [
+    1.0,
+    0.88,
+    0.6
+   ]
+  },
+  {
+   "id": "paris_1889",
+   "title": "Paris 1889",
+   "category": "vintage",
+   "shader": "paris_tower",
+   "fps": 16,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.62,
+    0.58,
+    0.52
+   ],
+   "c2": [
+    0.85,
+    0.78,
+    0.66
+   ],
+   "c3": [
+    0.95,
+    0.9,
+    0.82
+   ]
+  },
+  {
+   "id": "agra_dawn",
+   "title": "Agra Dawn",
+   "category": "vintage",
+   "shader": "agra_dawn",
+   "fps": 16,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.42,
+    0.5,
+    0.7
+   ],
+   "c2": [
+    0.95,
+    0.7,
+    0.62
+   ],
+   "c3": [
+    1.0,
+    0.75,
+    0.55
+   ]
+  },
+  {
+   "id": "steam_express",
+   "title": "Steam Express",
+   "category": "vintage",
+   "shader": "steam_train",
+   "fps": 16,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.35,
+    0.3,
+    0.38
+   ],
+   "c2": [
+    0.95,
+    0.65,
+    0.4
+   ],
+   "c3": [
+    1.0,
+    0.8,
+    0.45
+   ]
+  },
+  {
+   "id": "lighthouse",
+   "title": "Lighthouse",
+   "category": "vintage",
+   "shader": "lighthouse",
+   "fps": 24,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.25,
+    0.32,
+    0.42
+   ],
+   "c2": [
+    0.45,
+    0.5,
+    0.58
+   ],
+   "c3": [
+    1.0,
+    0.88,
+    0.6
+   ]
+  },
+  {
+   "id": "vinyl_record",
+   "title": "Vinyl Record",
+   "category": "vintage",
+   "shader": "vinyl",
+   "fps": 24,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.36,
+    0.19,
+    0.09
+   ],
+   "c2": [
+    0.72,
+    0.12,
+    0.1
+   ],
+   "c3": [
+    0.9,
+    0.72,
+    0.3
+   ]
+  },
+  {
+   "id": "art_deco",
+   "title": "Art Deco",
+   "category": "vintage",
+   "shader": "art_deco",
+   "fps": 16,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.55,
+    0.38,
+    0.12
+   ],
+   "c2": [
+    1.0,
+    0.82,
+    0.45
+   ],
+   "c3": [
+    0.02,
+    0.02,
+    0.025
+   ]
+  },
+  {
+   "id": "silent_film",
+   "title": "Silent Film",
+   "category": "vintage",
+   "shader": "silent_film",
+   "fps": 16,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.55,
+    0.08,
+    0.08
+   ],
+   "c2": [
+    0.95,
+    0.9,
+    0.75
+   ],
+   "c3": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "roman_ruins",
+   "title": "Roman Ruins",
+   "category": "vintage",
+   "shader": "colosseum",
+   "fps": 16,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.4,
+    0.25,
+    0.2
+   ],
+   "c2": [
+    0.95,
+    0.68,
+    0.45
+   ],
+   "c3": [
+    1.0,
+    0.82,
+    0.55
+   ]
+  },
+  {
+   "id": "om_glow",
+   "title": "Om",
+   "category": "religious",
+   "shader": "glyph",
+   "fps": 24,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    1.0,
+    0.8,
+    0.4
+   ],
+   "c2": [
+    1.0,
+    0.55,
+    0.15
+   ],
+   "c3": [
+    0.4,
+    0.09,
+    0.05
+   ],
+   "glyph": "ॐ"
+  },
+  {
+   "id": "diya_lights",
+   "title": "Diya Lights",
+   "category": "religious",
+   "shader": "diya",
+   "fps": 30,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    1.0,
+    0.62,
+    0.18
+   ],
+   "c2": [
+    0.95,
+    0.35,
+    0.1
+   ],
+   "c3": [
+    0.78,
+    0.38,
+    0.16
+   ]
+  },
+  {
+   "id": "lotus_bloom",
+   "title": "Lotus Bloom",
+   "category": "religious",
+   "shader": "lotus",
+   "fps": 24,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    1.0,
+    0.45,
+    0.65
+   ],
+   "c2": [
+    1.0,
+    0.8,
+    0.4
+   ],
+   "c3": [
+    0.06,
+    0.16,
+    0.26
+   ]
+  },
+  {
+   "id": "sri_yantra",
+   "title": "Sri Yantra",
+   "category": "religious",
+   "shader": "yantra",
+   "fps": 20,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    1.0,
+    0.75,
+    0.3
+   ],
+   "c2": [
+    1.0,
+    0.5,
+    0.2
+   ],
+   "c3": [
+    0.38,
+    0.04,
+    0.08
+   ]
+  },
+  {
+   "id": "rangoli",
+   "title": "Rangoli",
+   "category": "religious",
+   "shader": "rangoli",
+   "fps": 20,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.95,
+    0.2,
+    0.42
+   ],
+   "c2": [
+    1.0,
+    0.75,
+    0.1
+   ],
+   "c3": [
+    0.15,
+    0.55,
+    0.9
+   ]
+  },
+  {
+   "id": "temple_gopuram",
+   "title": "Temple Gopuram",
+   "category": "religious",
+   "shader": "gopuram",
+   "fps": 20,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.32,
+    0.36,
+    0.6
+   ],
+   "c2": [
+    1.0,
+    0.68,
+    0.42
+   ],
+   "c3": [
+    0.88,
+    0.6,
+    0.36
+   ]
+  },
+  {
+   "id": "stained_glass",
+   "title": "Stained Glass",
+   "category": "religious",
+   "shader": "stained_glass",
+   "fps": 20,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.9,
+    0.12,
+    0.15
+   ],
+   "c2": [
+    0.15,
+    0.35,
+    0.95
+   ],
+   "c3": [
+    1.0,
+    0.75,
+    0.15
+   ]
+  },
+  {
+   "id": "holy_cross",
+   "title": "Holy Cross",
+   "category": "religious",
+   "shader": "holy_cross",
+   "fps": 20,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.35,
+    0.42,
+    0.65
+   ],
+   "c2": [
+    1.0,
+    0.72,
+    0.5
+   ],
+   "c3": [
+    1.0,
+    0.9,
+    0.7
+   ]
+  },
+  {
+   "id": "candlelight",
+   "title": "Candlelight",
+   "category": "religious",
+   "shader": "candles",
+   "fps": 30,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    1.0,
+    0.62,
+    0.2
+   ],
+   "c2": [
+    0.9,
+    0.4,
+    0.15
+   ],
+   "c3": [
+    0.95,
+    0.88,
+    0.75
+   ]
+  },
+  {
+   "id": "bethlehem_star",
+   "title": "Star of Bethlehem",
+   "category": "religious",
+   "shader": "bethlehem",
+   "fps": 20,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.12,
+    0.18,
+    0.45
+   ],
+   "c2": [
+    0.85,
+    0.9,
+    1.0
+   ],
+   "c3": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "id": "dharma_wheel",
+   "title": "Dharma Wheel",
+   "category": "religious",
+   "shader": "dharma_wheel",
+   "fps": 24,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.85,
+    0.55,
+    0.15
+   ],
+   "c2": [
+    1.0,
+    0.85,
+    0.45
+   ],
+   "c3": [
+    0.45,
+    0.12,
+    0.06
+   ]
+  },
+  {
+   "id": "bodhi_leaf",
+   "title": "Bodhi Leaf",
+   "category": "religious",
+   "shader": "bodhi_leaf",
+   "fps": 20,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.25,
+    0.55,
+    0.2
+   ],
+   "c2": [
+    1.0,
+    0.85,
+    0.4
+   ],
+   "c3": [
+    0.1,
+    0.18,
+    0.12
+   ]
+  },
+  {
+   "id": "lantern_festival",
+   "title": "Lantern Festival",
+   "category": "religious",
+   "shader": "lanterns",
+   "fps": 24,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    1.0,
+    0.62,
+    0.22
+   ],
+   "c2": [
+    1.0,
+    0.35,
+    0.15
+   ],
+   "c3": [
+    0.08,
+    0.08,
+    0.25
+   ]
+  },
+  {
+   "id": "zen_garden",
+   "title": "Zen Garden",
+   "category": "religious",
+   "shader": "zen_garden",
+   "fps": 15,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    0.86,
+    0.8,
+    0.68
+   ],
+   "c2": [
+    0.3,
+    0.45,
+    0.18
+   ],
+   "c3": [
+    0.62,
+    0.6,
+    0.56
+   ]
+  },
+  {
+   "id": "photo",
+   "title": "My Photo",
+   "category": "photo",
+   "shader": "photo",
+   "fps": 30,
+   "p": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "c1": [
+    1,
+    1,
+    1
+   ],
+   "c2": [
+    1,
+    1,
+    1
+   ],
+   "c3": [
+    1,
+    1,
+    1
+   ]
+  }
+ ]
+}

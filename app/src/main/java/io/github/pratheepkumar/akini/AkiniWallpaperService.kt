@@ -12,6 +12,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.PowerManager
 import android.service.wallpaper.WallpaperService
 import android.view.MotionEvent
 import android.view.SurfaceHolder
@@ -23,7 +24,14 @@ import android.view.SurfaceHolder
  */
 class AkiniWallpaperService : WallpaperService() {
 
-    override fun onCreateEngine(): Engine = AkiniEngine()
+    private val engines = mutableListOf<AkiniEngine>()
+
+    override fun onCreateEngine(): Engine = AkiniEngine().also { engines.add(it) }
+
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        engines.forEach { it.trimMemory() }
+    }
 
     inner class AkiniEngine : Engine(), SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -32,10 +40,14 @@ class AkiniWallpaperService : WallpaperService() {
         private val handler = Handler(Looper.getMainLooper())
         private val keyguard =
             getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager?
+        private val power = getSystemService(Context.POWER_SERVICE) as PowerManager?
+        private var userFps = 30
+        private var smartBattery = true
+        private var hot = false
+        private var thermalListener: Any? = null
         private var glView: WallpaperGLView? = null
         private var tilt: TiltSensor? = null
         private var isShown = false
-        private var frameDelayMs = 33L
         private var receiverRegistered = false
 
         /** Draws frames at the chosen rate while moving; idles when the picture is still. */
@@ -44,7 +56,7 @@ class AkiniWallpaperService : WallpaperService() {
                 if (!isShown) return
                 updateScreen()
                 if (renderer.needsFrame()) glView?.requestRender()
-                val delay = if (renderer.wantsContinuousFrames()) frameDelayMs else IDLE_CHECK_MS
+                val delay = if (renderer.wantsContinuousFrames()) 1000L / effectiveFps() else IDLE_CHECK_MS
                 handler.postDelayed(this, delay)
             }
         }
@@ -52,7 +64,9 @@ class AkiniWallpaperService : WallpaperService() {
         /** Unlock / screen on / screen off: switch between the lock and home wallpapers. */
         private val screenReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
-                if (intent?.action == Intent.ACTION_SCREEN_OFF) {
+                if (intent?.action == PowerManager.ACTION_POWER_SAVE_MODE_CHANGED) {
+                    applyBatteryLimits()
+                } else if (intent?.action == Intent.ACTION_SCREEN_OFF) {
                     renderer.setScreen(Screen.LOCK)
                     prerenderWhileHidden()
                 } else {
@@ -74,8 +88,48 @@ class AkiniWallpaperService : WallpaperService() {
             tilt = TiltSensor(this@AkiniWallpaperService) { x, y -> renderer.setTilt(x, y) }
             prefs.sp.registerOnSharedPreferenceChangeListener(this)
             registerScreenReceiver()
+            registerThermalListener()
             applyPrefs()
             updateScreen()
+        }
+
+        /** Android 10+: slow down when the phone reports it is getting warm. */
+        private fun registerThermalListener() {
+            val pm = power ?: return
+            if (Build.VERSION.SDK_INT < 29) return
+            val listener = PowerManager.OnThermalStatusChangedListener { status ->
+                hot = status >= PowerManager.THERMAL_STATUS_MODERATE
+                applyBatteryLimits()
+            }
+            try {
+                pm.addThermalStatusListener(listener)
+                thermalListener = listener
+                hot = pm.currentThermalStatus >= PowerManager.THERMAL_STATUS_MODERATE
+            } catch (e: Exception) {
+                // thermal status not available on this phone
+            }
+        }
+
+        private fun constrained(): Boolean = (power?.isPowerSaveMode == true) || hot
+
+        /** Frame rate actually used: the user's choice, capped by the design and battery state. */
+        private fun effectiveFps(): Int {
+            var fps = userFps
+            if (smartBattery) {
+                fps = minOf(fps, renderer.activeSceneFps)
+                if (constrained()) fps = minOf(fps, 15)
+            }
+            return fps.coerceIn(10, 60)
+        }
+
+        /** In Battery Saver (or when warm) smart battery also drops to HD resolution. */
+        private fun applyBatteryLimits() {
+            renderer.setResolutionCap(if (smartBattery && constrained()) 0 else 2)
+            glView?.requestRender()
+        }
+
+        fun trimMemory() {
+            renderer.trimMemory()
         }
 
         private fun registerScreenReceiver() {
@@ -83,6 +137,7 @@ class AkiniWallpaperService : WallpaperService() {
                 addAction(Intent.ACTION_USER_PRESENT)
                 addAction(Intent.ACTION_SCREEN_ON)
                 addAction(Intent.ACTION_SCREEN_OFF)
+                addAction(PowerManager.ACTION_POWER_SAVE_MODE_CHANGED)
             }
             try {
                 if (Build.VERSION.SDK_INT >= 33) {
@@ -142,6 +197,11 @@ class AkiniWallpaperService : WallpaperService() {
             isShown = visible
             handler.removeCallbacks(frameTick)
             if (visible) {
+                // a new day may bring a new design (no alarms or background work needed)
+                if (!isPreview) {
+                    Shuffler.maybeShuffle(this@AkiniWallpaperService, prefs, Screen.LOCK)
+                    if (prefs.separate) Shuffler.maybeShuffle(this@AkiniWallpaperService, prefs, Screen.HOME)
+                }
                 updateScreen()
                 glView?.onResume()
                 if (prefs.parallax) tilt?.start()
@@ -189,7 +249,9 @@ class AkiniWallpaperService : WallpaperService() {
         }
 
         private fun applyPrefs() {
-            frameDelayMs = 1000L / prefs.fps.coerceIn(10, 60)
+            userFps = prefs.fps
+            smartBattery = prefs.smartBattery
+            applyBatteryLimits()
             if (!prefs.parallax) {
                 tilt?.stop()
                 renderer.setTilt(0f, 0f)
@@ -211,6 +273,17 @@ class AkiniWallpaperService : WallpaperService() {
                 }
                 receiverRegistered = false
             }
+            if (Build.VERSION.SDK_INT >= 29) {
+                val l = thermalListener
+                if (l is PowerManager.OnThermalStatusChangedListener) {
+                    try {
+                        power?.removeThermalStatusListener(l)
+                    } catch (e: Exception) {
+                        // already removed
+                    }
+                }
+            }
+            engines.remove(this)
             glView?.destroy()
             glView = null
             super.onDestroy()

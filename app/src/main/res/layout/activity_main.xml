@@ -77,6 +77,43 @@
 
                 <TextView
                     style="@style/AkiniLabel"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/label_screens" />
+
+                <LinearLayout
+                    android:id="@+id/screens_row"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+
+                <LinearLayout
+                    android:id="@+id/editing_section"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        style="@style/AkiniLabel"
+                        android:text="@string/label_editing" />
+
+                    <LinearLayout
+                        android:id="@+id/editing_row"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/hint_still_home"
+                        android:textColor="@color/akini_text_dim"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    style="@style/AkiniLabel"
                     android:text="@string/label_scenes" />
 
                 <HorizontalScrollView

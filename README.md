@@ -15,7 +15,9 @@ Open source. **No ads, no trackers, no permissions, and no internet access.**
 - **Tilt parallax**: scenes shift with the phone's motion sensor.
 - **Touch ripple**: tap the home screen to send out a glowing shockwave.
 - **Battery-friendly**: pauses whenever the wallpaper isn't visible. Frame rate (24/30/60) and render quality are adjustable.
-- Works on the **home screen and the lock screen**.
+- Works on the **home screen and the lock screen**, with **different wallpapers on each** if you like.
+  Samsung runs one live wallpaper on both screens, so Akini detects when you unlock and switches pictures.
+  A still home screen (My Photo → Still → None) draws once and then uses no battery.
 
 ![Photo effects](docs/photo-effects.jpg)
 

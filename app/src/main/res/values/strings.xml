@@ -4,7 +4,16 @@
     <string name="brand">AKINI</string>
     <string name="wallpaper_description">Hi-tech live wallpapers and animated photos. No ads, no tracking, no internet access.</string>
 
+    <string name="label_screens">SCREENS</string>
+    <string name="label_editing">EDITING</string>
     <string name="label_scenes">SCENES</string>
+    <string name="screens_same">Same on both</string>
+    <string name="screens_different">Different home &amp; lock</string>
+    <string name="editing_lock">Lock screen</string>
+    <string name="editing_home">Home screen</string>
+    <string name="hint_still_home">Tip: for a still home screen that uses no battery, choose My Photo → Still → None.</string>
+    <string name="title_lock">Lock screen · %1$s</string>
+    <string name="title_home">Home screen · %1$s</string>
     <string name="label_motion">MOTION</string>
     <string name="label_effect">EFFECT</string>
     <string name="label_fps">FRAME RATE</string>
@@ -19,7 +28,7 @@
     <string name="toggle_touch">Touch ripple</string>
 
     <string name="apply">SET AS WALLPAPER</string>
-    <string name="apply_hint">Tap “Set wallpaper”, then pick “Home and lock screens”.</string>
+    <string name="apply_hint">Tap “Set wallpaper”, then pick “Home and lock screens”. Akini shows the right picture on each.</string>
     <string name="apply_hint_chooser">Choose Akini from the list, then pick “Home and lock screens”.</string>
     <string name="apply_failed">This phone has no live wallpaper picker.</string>
     <string name="status_active">Akini is your wallpaper — changes apply instantly.</string>

@@ -31,6 +31,9 @@ class MainActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeListe
 
     private lateinit var sceneTitle: TextView
     private lateinit var sceneTagline: TextView
+    private lateinit var screensRow: LinearLayout
+    private lateinit var editingSection: LinearLayout
+    private lateinit var editingRow: LinearLayout
     private lateinit var sceneRow: LinearLayout
     private lateinit var photoSection: LinearLayout
     private lateinit var motionRow: LinearLayout
@@ -62,6 +65,9 @@ class MainActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeListe
 
         sceneTitle = findViewById(R.id.scene_title)
         sceneTagline = findViewById(R.id.scene_tagline)
+        screensRow = findViewById(R.id.screens_row)
+        editingSection = findViewById(R.id.editing_section)
+        editingRow = findViewById(R.id.editing_row)
         sceneRow = findViewById(R.id.scene_row)
         photoSection = findViewById(R.id.photo_section)
         motionRow = findViewById(R.id.motion_row)
@@ -118,10 +124,22 @@ class MainActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeListe
     // ---------------------------------------------------------------- UI
 
     private fun buildRows() {
+        fillOptions(screensRow, arrayOf(getString(R.string.screens_same), getString(R.string.screens_different))) {
+            prefs.separate = it == 1
+        }
+        fillOptions(editingRow, arrayOf(getString(R.string.editing_lock), getString(R.string.editing_home))) {
+            prefs.editing = if (it == 1) Screen.HOME else Screen.LOCK
+        }
         sceneRow.removeAllViews()
-        Scenes.all.forEach { scene -> sceneRow.addView(chip(scene.title) { prefs.scene = scene.id }) }
-        fillOptions(motionRow, resources.getStringArray(R.array.motion_options)) { prefs.motion = it }
-        fillOptions(effectRow, resources.getStringArray(R.array.effect_options)) { prefs.overlay = it }
+        Scenes.all.forEach { scene ->
+            sceneRow.addView(chip(scene.title) { prefs.setScene(prefs.editTarget, scene.id) })
+        }
+        fillOptions(motionRow, resources.getStringArray(R.array.motion_options)) {
+            prefs.setMotion(prefs.editTarget, it)
+        }
+        fillOptions(effectRow, resources.getStringArray(R.array.effect_options)) {
+            prefs.setOverlay(prefs.editTarget, it)
+        }
         fillOptions(fpsRow, Prefs.FPS_OPTIONS.map { getString(R.string.fps_label, it) }.toTypedArray()) {
             prefs.fps = Prefs.FPS_OPTIONS[it]
         }
@@ -157,13 +175,26 @@ class MainActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeListe
     }
 
     private fun refresh() {
-        val scene = Scenes.byId(prefs.scene)
-        sceneTitle.text = scene.title
+        val separate = prefs.separate
+        val target = prefs.editTarget
+        val cfg = prefs.configFor(target)
+        val scene = Scenes.byId(cfg.scene)
+        renderer.setScreen(target)
+
+        selectOnly(screensRow, if (separate) 1 else 0)
+        editingSection.visibility = if (separate) View.VISIBLE else View.GONE
+        selectOnly(editingRow, if (target == Screen.HOME) 1 else 0)
+
+        sceneTitle.text = when {
+            !separate -> scene.title
+            target == Screen.HOME -> getString(R.string.title_home, scene.title)
+            else -> getString(R.string.title_lock, scene.title)
+        }
         sceneTagline.text = scene.tagline
         selectOnly(sceneRow, Scenes.all.indexOf(scene))
         photoSection.visibility = if (scene.id == Scenes.PHOTO) View.VISIBLE else View.GONE
-        selectOnly(motionRow, prefs.motion)
-        selectOnly(effectRow, prefs.overlay)
+        selectOnly(motionRow, cfg.motion)
+        selectOnly(effectRow, cfg.overlay)
         selectOnly(fpsRow, Prefs.FPS_OPTIONS.indexOf(prefs.fps))
         selectOnly(qualityRow, prefs.quality)
         toggleRow.getChildAt(0)?.isSelected = prefs.parallax
@@ -251,17 +282,18 @@ class MainActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeListe
     private fun importPhoto(uri: Uri) {
         statusText.setText(R.string.photo_importing)
         val appContext = applicationContext
+        val target = prefs.editTarget
+        val file = prefs.photoFileFor(target)
         Thread {
             val ok = try {
-                PhotoImporter.import(appContext, uri)
+                PhotoImporter.import(appContext, uri, file)
             } catch (e: Exception) {
                 Log.e("Akini", "Photo import failed", e)
                 false
             }
             runOnUiThread {
                 if (ok) {
-                    prefs.photoVersion = System.currentTimeMillis()
-                    prefs.scene = Scenes.PHOTO
+                    prefs.photoImported(target)
                     refresh()
                 } else {
                     Toast.makeText(this, R.string.photo_failed, Toast.LENGTH_LONG).show()

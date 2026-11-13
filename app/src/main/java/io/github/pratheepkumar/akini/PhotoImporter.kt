@@ -21,11 +21,10 @@ object PhotoImporter {
 
     private const val MAX_SIDE = 2560
 
-    /** Runs on a background thread. Returns true when the photo was saved. */
-    fun import(context: Context, uri: Uri): Boolean {
+    /** Runs on a background thread. Returns true when the photo was saved to [target]. */
+    fun import(context: Context, uri: Uri, target: File): Boolean {
         val bitmap = decode(context, uri) ?: return false
-        val target = Prefs.photoFile(context)
-        val temp = File(target.parentFile, "photo.tmp")
+        val temp = File(target.parentFile, target.name + ".tmp")
         FileOutputStream(temp).use { bitmap.compress(Bitmap.CompressFormat.JPEG, 92, it) }
         bitmap.recycle()
         if (target.exists()) target.delete()

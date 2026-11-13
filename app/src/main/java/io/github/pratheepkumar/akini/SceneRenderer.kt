@@ -8,6 +8,7 @@ import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import android.opengl.GLUtils
 import android.util.Log
+import java.io.File
 import java.io.IOException
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -26,7 +27,36 @@ import kotlin.math.roundToInt
  */
 class SceneRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
+    /** GL objects for one screen's wallpaper, so lock and home can switch instantly. */
+    private class Slot {
+        var scene: String? = null
+        var program = 0
+        var photoTex = 0
+        var photoW = 1f
+        var photoH = 1f
+        var photoKey: String? = null
+        var motion = 1
+        var overlay = 1
+        var uRes = -1
+        var uTime = -1
+        var uTilt = -1
+        var uTouch = -1
+        var uTex = -1
+        var uTexSize = -1
+        var uMotion = -1
+        var uOverlay = -1
+
+        /** A still photo with no effect never changes, so it only needs drawing once. */
+        val isStatic: Boolean
+            get() = scene == Scenes.PHOTO && motion == 0 && overlay == 0
+
+        fun forget() {
+            scene = null; program = 0; photoTex = 0; photoKey = null
+        }
+    }
+
     private val prefs = Prefs(context)
+    private val slots = arrayOf(Slot(), Slot())
     private val quad: FloatBuffer = ByteBuffer.allocateDirect(8 * 4)
         .order(ByteOrder.nativeOrder())
         .asFloatBuffer()
@@ -43,15 +73,14 @@ class SceneRenderer(private val context: Context) : GLSurfaceView.Renderer {
     @Volatile private var touchX = 0.5f
     @Volatile private var touchY = 0.5f
     @Volatile private var touchAtNs = 0L
+    @Volatile private var screen = Screen.LOCK
+    @Volatile private var dirty = true
+    @Volatile private var activeStatic = false
+    @Volatile private var touchEnabled = true
 
     // ---- render-thread state ----
-    private var program = 0
+    private var separate = false
     private var blitProgram = 0
-    private var loadedScene: String? = null
-    private var loadedPhotoVersion = Long.MIN_VALUE
-    private var photoTex = 0
-    private var photoW = 1f
-    private var photoH = 1f
     private var fbo = 0
     private var fboTex = 0
     private var surfaceW = 1
@@ -63,24 +92,28 @@ class SceneRenderer(private val context: Context) : GLSurfaceView.Renderer {
     private var lastFrameNs = 0L
     private var tiltX = 0f
     private var tiltY = 0f
-    private var motion = 1
-    private var overlay = 1
-    private var touchEnabled = true
-
-    private var uRes = -1
-    private var uTime = -1
-    private var uTilt = -1
-    private var uTouch = -1
-    private var uTex = -1
-    private var uTexSize = -1
-    private var uMotion = -1
-    private var uOverlay = -1
     private var uBlitTex = -1
 
     /** Re-read settings (scene, photo, quality) before the next frame. */
     fun requestReload() {
         reloadRequested = true
+        dirty = true
     }
+
+    /** Which screen is showing: [Screen.LOCK] or [Screen.HOME]. */
+    fun setScreen(value: Int) {
+        if (value != screen) {
+            screen = value
+            dirty = true
+        }
+    }
+
+    /** True while the picture is moving and needs frames at the chosen frame rate. */
+    fun wantsContinuousFrames(): Boolean =
+        !activeStatic || (touchEnabled && System.nanoTime() - touchAtNs < 3_200_000_000L)
+
+    /** True when something has changed since the last frame. */
+    fun needsFrame(): Boolean = dirty || wantsContinuousFrames()
 
     /** Device tilt, roughly -1..1 on each axis. */
     fun setTilt(x: Float, y: Float) {
@@ -96,16 +129,14 @@ class SceneRenderer(private val context: Context) : GLSurfaceView.Renderer {
         touchX = x.coerceIn(0f, 1f)
         touchY = (1f - yFromTop).coerceIn(0f, 1f)
         touchAtNs = now
+        dirty = true
     }
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
         // New GL context: any objects from an older context no longer exist.
-        program = 0
-        photoTex = 0
+        slots.forEach { it.forget() }
         fbo = 0
         fboTex = 0
-        loadedScene = null
-        loadedPhotoVersion = Long.MIN_VALUE
         blitProgram = buildProgram(VERTEX_SHADER, BLIT_SHADER)
         uBlitTex = GLES20.glGetUniformLocation(blitProgram, "uTex")
         GLES20.glDisable(GLES20.GL_DEPTH_TEST)
@@ -118,6 +149,7 @@ class SceneRenderer(private val context: Context) : GLSurfaceView.Renderer {
         surfaceW = max(1, width)
         surfaceH = max(1, height)
         setupTarget()
+        dirty = true
     }
 
     override fun onDrawFrame(gl: GL10?) {
@@ -137,7 +169,11 @@ class SceneRenderer(private val context: Context) : GLSurfaceView.Renderer {
         tiltX += (targetTiltX + scrollOffset * 0.5f - tiltX) * k
         tiltY += (targetTiltY - tiltY) * k
 
-        if (program == 0) {
+        dirty = false
+        val slot = slots[if (separate) screen else 0]
+        if (slot.scene == null) prepare(slot, if (separate) screen else Screen.LOCK)
+        activeStatic = slot.isStatic
+        if (slot.program == 0) {
             GLES20.glClearColor(0f, 0f, 0f, 1f)
             GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT)
             return
@@ -145,19 +181,19 @@ class SceneRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, fbo)
         GLES20.glViewport(0, 0, targetW, targetH)
-        GLES20.glUseProgram(program)
-        GLES20.glUniform2f(uRes, targetW.toFloat(), targetH.toFloat())
-        GLES20.glUniform1f(uTime, animTime.toFloat())
-        GLES20.glUniform2f(uTilt, tiltX, tiltY)
+        GLES20.glUseProgram(slot.program)
+        GLES20.glUniform2f(slot.uRes, targetW.toFloat(), targetH.toFloat())
+        GLES20.glUniform1f(slot.uTime, animTime.toFloat())
+        GLES20.glUniform2f(slot.uTilt, tiltX, tiltY)
         val touchAge = ((now - touchAtNs) / 1e9).coerceAtMost(100.0).toFloat()
-        GLES20.glUniform4f(uTouch, touchX, touchY, touchAge, if (touchEnabled) 1f else 0f)
-        if (uTex >= 0 && photoTex != 0) {
+        GLES20.glUniform4f(slot.uTouch, touchX, touchY, touchAge, if (touchEnabled) 1f else 0f)
+        if (slot.uTex >= 0 && slot.photoTex != 0) {
             GLES20.glActiveTexture(GLES20.GL_TEXTURE0)
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, photoTex)
-            GLES20.glUniform1i(uTex, 0)
-            GLES20.glUniform2f(uTexSize, photoW, photoH)
-            GLES20.glUniform1f(uMotion, motion.toFloat())
-            GLES20.glUniform1f(uOverlay, overlay.toFloat())
+            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, slot.photoTex)
+            GLES20.glUniform1i(slot.uTex, 0)
+            GLES20.glUniform2f(slot.uTexSize, slot.photoW, slot.photoH)
+            GLES20.glUniform1f(slot.uMotion, slot.motion.toFloat())
+            GLES20.glUniform1f(slot.uOverlay, slot.overlay.toFloat())
         }
         drawQuad()
 
@@ -181,42 +217,60 @@ class SceneRenderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     private fun reload() {
-        val scene = Scenes.byId(prefs.scene).id
-        motion = prefs.motion
-        overlay = prefs.overlay
+        separate = prefs.separate
         touchEnabled = prefs.touch
-
-        if (scene != loadedScene) {
-            if (program != 0) GLES20.glDeleteProgram(program)
-            program = loadSceneProgram(scene)
-            loadedScene = scene
-            uRes = GLES20.glGetUniformLocation(program, "uRes")
-            uTime = GLES20.glGetUniformLocation(program, "uTime")
-            uTilt = GLES20.glGetUniformLocation(program, "uTilt")
-            uTouch = GLES20.glGetUniformLocation(program, "uTouch")
-            uTex = GLES20.glGetUniformLocation(program, "uTex")
-            uTexSize = GLES20.glGetUniformLocation(program, "uTexSize")
-            uMotion = GLES20.glGetUniformLocation(program, "uMotion")
-            uOverlay = GLES20.glGetUniformLocation(program, "uOverlay")
+        if (separate) {
+            prepare(slots[Screen.LOCK], Screen.LOCK)
+            prepare(slots[Screen.HOME], Screen.HOME)
+        } else {
+            prepare(slots[0], Screen.LOCK)
+            release(slots[1])
         }
-
-        if (scene == Scenes.PHOTO) {
-            val version = prefs.photoVersion
-            if (photoTex == 0 || version != loadedPhotoVersion) {
-                loadPhoto()
-                loadedPhotoVersion = version
-            }
-        } else if (photoTex != 0) {
-            GLES20.glDeleteTextures(1, intArrayOf(photoTex), 0)
-            photoTex = 0
-            loadedPhotoVersion = Long.MIN_VALUE
-        }
-
         val scale = Prefs.renderScale(prefs.quality)
         if (scale != renderScale) {
             renderScale = scale
             setupTarget()
         }
+    }
+
+    /** Brings a slot up to date with the settings for [forScreen]. */
+    private fun prepare(slot: Slot, forScreen: Int) {
+        val cfg = prefs.configFor(forScreen)
+        val scene = Scenes.byId(cfg.scene).id
+        if (scene != slot.scene) {
+            if (slot.program != 0) GLES20.glDeleteProgram(slot.program)
+            val p = loadSceneProgram(scene)
+            slot.program = p
+            slot.scene = scene
+            slot.uRes = GLES20.glGetUniformLocation(p, "uRes")
+            slot.uTime = GLES20.glGetUniformLocation(p, "uTime")
+            slot.uTilt = GLES20.glGetUniformLocation(p, "uTilt")
+            slot.uTouch = GLES20.glGetUniformLocation(p, "uTouch")
+            slot.uTex = GLES20.glGetUniformLocation(p, "uTex")
+            slot.uTexSize = GLES20.glGetUniformLocation(p, "uTexSize")
+            slot.uMotion = GLES20.glGetUniformLocation(p, "uMotion")
+            slot.uOverlay = GLES20.glGetUniformLocation(p, "uOverlay")
+        }
+        slot.motion = cfg.motion
+        slot.overlay = cfg.overlay
+
+        if (scene == Scenes.PHOTO) {
+            val key = cfg.photoFile.path + "#" + cfg.photoVersion
+            if (slot.photoTex == 0 || key != slot.photoKey) {
+                loadPhoto(slot, cfg.photoFile)
+                slot.photoKey = key
+            }
+        } else if (slot.photoTex != 0) {
+            GLES20.glDeleteTextures(1, intArrayOf(slot.photoTex), 0)
+            slot.photoTex = 0
+            slot.photoKey = null
+        }
+    }
+
+    private fun release(slot: Slot) {
+        if (slot.program != 0) GLES20.glDeleteProgram(slot.program)
+        if (slot.photoTex != 0) GLES20.glDeleteTextures(1, intArrayOf(slot.photoTex), 0)
+        slot.forget()
     }
 
     private fun loadSceneProgram(id: String): Int {
@@ -276,12 +330,11 @@ class SceneRenderer(private val context: Context) : GLSurfaceView.Renderer {
         fboTex = 0
     }
 
-    private fun loadPhoto() {
-        if (photoTex != 0) {
-            GLES20.glDeleteTextures(1, intArrayOf(photoTex), 0)
-            photoTex = 0
+    private fun loadPhoto(slot: Slot, file: File) {
+        if (slot.photoTex != 0) {
+            GLES20.glDeleteTextures(1, intArrayOf(slot.photoTex), 0)
+            slot.photoTex = 0
         }
-        val file = Prefs.photoFile(context)
         var bmp: Bitmap = (if (file.exists()) BitmapFactory.decodeFile(file.absolutePath) else null)
             ?: placeholderBitmap()
 
@@ -299,12 +352,12 @@ class SceneRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
         val ids = IntArray(1)
         GLES20.glGenTextures(1, ids, 0)
-        photoTex = ids[0]
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, photoTex)
+        slot.photoTex = ids[0]
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, slot.photoTex)
         setTextureParams()
         GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bmp, 0)
-        photoW = bmp.width.toFloat()
-        photoH = bmp.height.toFloat()
+        slot.photoW = bmp.width.toFloat()
+        slot.photoH = bmp.height.toFloat()
         bmp.recycle()
     }
 

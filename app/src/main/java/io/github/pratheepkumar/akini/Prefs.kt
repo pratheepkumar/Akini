@@ -1,5 +1,6 @@
 package io.github.pratheepkumar.akini
 
+import android.app.ActivityManager
 import android.content.Context
 import android.content.SharedPreferences
 import java.io.File
@@ -53,7 +54,7 @@ class Prefs(context: Context) {
 
     /** Render resolution: 0 = HD (720p), 1 = Full HD (1080p), 2 = 4K (2160p). */
     var resolution: Int
-        get() = sp.getInt(KEY_RESOLUTION, 1)
+        get() = sp.getInt(KEY_RESOLUTION, defaultResolution)
         set(value) = sp.edit().putInt(KEY_RESOLUTION, value).apply()
 
     /** Lower the frame rate to what each design needs, and back off in Battery Saver or when warm. */
@@ -73,6 +74,20 @@ class Prefs(context: Context) {
     var touch: Boolean
         get() = sp.getBoolean(KEY_TOUCH, true)
         set(value) = sp.edit().putBoolean(KEY_TOUCH, value).apply()
+
+    /** Phones with little memory (any brand) start at HD; everything else at Full HD. */
+    private val defaultResolution: Int by lazy {
+        val am = appContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
+        when {
+            am == null -> 1
+            am.isLowRamDevice -> 0
+            else -> {
+                val info = ActivityManager.MemoryInfo()
+                am.getMemoryInfo(info)
+                if (info.totalMem in 1 until 3_500_000_000L) 0 else 1
+            }
+        }
+    }
 
     fun configFor(screen: Int): ScreenConfig {
         val p = prefix(screen)

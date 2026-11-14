@@ -53,6 +53,7 @@ class MainActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeListe
     private lateinit var effectRow: LinearLayout
     private lateinit var settingsSection: LinearLayout
     private lateinit var settingsToggle: TextView
+    private lateinit var panelScroll: android.widget.ScrollView
     private lateinit var fpsRow: LinearLayout
     private lateinit var resolutionRow: LinearLayout
     private lateinit var resolutionNote: TextView
@@ -99,6 +100,7 @@ class MainActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeListe
         effectRow = findViewById(R.id.effect_row)
         settingsSection = findViewById(R.id.settings_section)
         settingsToggle = findViewById(R.id.settings_toggle)
+        panelScroll = findViewById(R.id.panel_scroll)
         fpsRow = findViewById(R.id.fps_row)
         resolutionRow = findViewById(R.id.resolution_row)
         resolutionNote = findViewById(R.id.resolution_note)
@@ -109,6 +111,8 @@ class MainActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeListe
             val show = settingsSection.visibility != View.VISIBLE
             settingsSection.visibility = if (show) View.VISIBLE else View.GONE
             settingsToggle.setText(if (show) R.string.settings_hide else R.string.settings_show)
+            // bring the newly opened settings into view
+            if (show) panelScroll.post { panelScroll.fullScroll(View.FOCUS_DOWN) }
         }
         findViewById<View>(R.id.apply_button).setOnClickListener { applyWallpaper() }
         findViewById<View>(R.id.choose_photo).setOnClickListener { pickPhoto() }
@@ -372,7 +376,8 @@ class MainActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeListe
             val top: Int
             val bottom: Int
             if (Build.VERSION.SDK_INT >= 30) {
-                val bars = insets.getInsets(WindowInsets.Type.systemBars())
+                // include camera cut-outs (notches, punch holes) on every brand, in any orientation
+                val bars = insets.getInsets(WindowInsets.Type.systemBars() or WindowInsets.Type.displayCutout())
                 top = bars.top
                 bottom = bars.bottom
             } else {
@@ -380,6 +385,10 @@ class MainActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeListe
                 bottom = insets.systemWindowInsetBottom
             }
             v.setPadding(0, top, 0, bottom)
+            if (Build.VERSION.SDK_INT >= 30) {
+                val side = insets.getInsets(WindowInsets.Type.systemBars() or WindowInsets.Type.displayCutout())
+                v.setPadding(side.left, top, side.right, bottom)
+            }
             insets
         }
     }
@@ -397,17 +406,25 @@ class MainActivity : Activity(), SharedPreferences.OnSharedPreferenceChangeListe
             WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
             ComponentName(this, AkiniWallpaperService::class.java)
         )
-        try {
-            startActivity(intent)
-            Toast.makeText(this, R.string.apply_hint, Toast.LENGTH_LONG).show()
-        } catch (e: ActivityNotFoundException) {
+        // Phones differ in how they let you pick a live wallpaper, so try the standard
+        // preview first, then the system list, then the launcher's own wallpaper picker.
+        val attempts = listOf(
+            intent to R.string.apply_hint,
+            Intent(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER) to R.string.apply_hint_chooser,
+            Intent.createChooser(Intent(Intent.ACTION_SET_WALLPAPER), getString(R.string.app_name)) to R.string.apply_hint_picker,
+        )
+        for ((attempt, hint) in attempts) {
             try {
-                startActivity(Intent(WallpaperManager.ACTION_LIVE_WALLPAPER_CHOOSER))
-                Toast.makeText(this, R.string.apply_hint_chooser, Toast.LENGTH_LONG).show()
-            } catch (e2: ActivityNotFoundException) {
-                Toast.makeText(this, R.string.apply_failed, Toast.LENGTH_LONG).show()
+                startActivity(attempt)
+                Toast.makeText(this, hint, Toast.LENGTH_LONG).show()
+                return
+            } catch (e: ActivityNotFoundException) {
+                // try the next way
+            } catch (e: SecurityException) {
+                // some phones block one of these; try the next way
             }
         }
+        Toast.makeText(this, R.string.apply_failed, Toast.LENGTH_LONG).show()
     }
 
     private fun pickPhoto() {

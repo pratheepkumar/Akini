@@ -13,7 +13,7 @@
     <string name="screens_different">Different home &amp; lock</string>
     <string name="editing_lock">Lock screen</string>
     <string name="editing_home">Home screen</string>
-    <string name="hint_still_home">Tip: for a still home screen that uses no battery, choose My Photo → Still → None.</string>
+    <string name="hint_still_home">Tip: for a still home screen that uses no battery, choose My Photo → Still → None. Some phones (certain Xiaomi, Huawei, Oppo and Vivo models) always keep their own lock-screen picture; Akini then shows on the home screen.</string>
     <string name="title_lock">Lock screen · %1$s</string>
     <string name="title_home">Home screen · %1$s</string>
     <string name="label_motion">MOTION</string>
@@ -33,9 +33,10 @@
     <string name="res_note_4k">4K: extra-fine detail, drawn at 4× the pixels of Full HD, so it uses noticeably more battery.</string>
 
     <string name="apply">SET AS WALLPAPER</string>
-    <string name="apply_hint">Tap “Set wallpaper”, then pick “Home and lock screens”. Akini shows the right picture on each.</string>
-    <string name="apply_hint_chooser">Choose Akini from the list, then pick “Home and lock screens”.</string>
-    <string name="apply_failed">This phone has no live wallpaper picker.</string>
+    <string name="apply_hint">Confirm on the preview screen. If your phone asks, choose both home and lock screens.</string>
+    <string name="apply_hint_chooser">Choose Akini from the list, then confirm. If asked, choose both home and lock screens.</string>
+    <string name="apply_hint_picker">Open “Live wallpapers” (or “Dynamic”) and choose Akini.</string>
+    <string name="apply_failed">Couldn’t open the wallpaper picker. Long-press your home screen, tap Wallpapers, then find Akini under live wallpapers.</string>
     <string name="status_active">Akini is your wallpaper — changes apply instantly.</string>
     <string name="status_inactive">Preview only. Tap the button to apply.</string>
     <string name="photo_importing">Importing photo…</string>

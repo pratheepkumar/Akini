@@ -32,6 +32,16 @@ Open source. **No ads, no trackers, no permissions, and no internet access.**
 
 ![Built-in scenes](docs/scenes.jpg)
 
+## Works on any Android phone
+
+Akini runs on **Android 8.0 or newer, on any brand**: Samsung, Google Pixel, Xiaomi/Redmi/POCO, OnePlus, Oppo, Realme,
+Vivo, Motorola, Nothing, Huawei/Honor and others. It uses only standard Android features and needs no Google services.
+- The control panel scrolls on any screen size, font size or display zoom, and the **Set as wallpaper** button stays pinned at the bottom.
+- If the standard live-wallpaper preview isn't available, Akini falls back to the system list, then to your launcher's wallpaper picker.
+- Phones with little memory start at HD automatically.
+- Lock screens differ by brand. Some phones (certain Xiaomi, Huawei, Oppo and Vivo models) always keep their own lock-screen picture,
+  and Akini then shows on the home screen only.
+
 ## Install
 
 1. On your phone, open the [latest release](../../releases/latest) and download **Akini.apk**.
